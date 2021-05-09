@@ -49,7 +49,7 @@ for L = 1:1%N-p
     
     %% erro
     E = T - Y2;
-    Ean(i) = mse(E); %% preciso entender pra saber implementar
+    Ean(ep) = mse(E); %% preciso entender pra saber implementar
     
     %% Treinamento
     
@@ -78,12 +78,63 @@ for L = 1:1%N-p
             W  = wdab;
             J1 = mJ1temp';
         else
-            W  = [W wdab];
-            J1 = [J1 mJ1temp'];
+            cont = 1;
+            for indice = length(W+1):length(W+wdab)
+                               
+                    W(indice) = wdab(cont);
+                cont = cont+1;
+                %W  = [W wdab];
+            end
+            cont = 1;
+            for indice = length(J1+1) : length(J1 + mJ1temp')                
+                J1(indice) = mJ1tmp(cont)';
+                cont = cont+1;
+                %J1 = [J1 mJ1temp'];
+            end
         end
-    
     end
-
+        
+        %% juntando pesos
+        cont = 1;
+        for indice = length(W+1):length(W+W2)
+            W(indice) = W2(cont);
+            cont = cont + 1;
+        end
+        cont = 1;
+        J = J1;
+        for indice = length(J1+1): length(J1+Yb')
+            J(indice) = -Yb(cont)'
+            cont = cont+1;
+        end
+        %J = [J1 -Yb'];
+        
+        w = W;
+        
+        %% Parâmetro de silenciamento (damper) igual
+        
+            H = J'*J/N;
+            g = J'*E'/N;
+            G(:,ep) = g;
+            for i = 1:97
+                for ii = 1:97
+                    if i == ii
+                         iden(i,ii) = 1;
+                    end
+                end
+            end
+               
+            M = mi*iden;
+            W = w - g'*inv(H + M);
+            
+            
+           %% posicionando os pesos
+            for k = 1:h
+                W1(k,:) = W((k-1)*11+1:k*11);
+            end
+            
+            W2 = W(h*11+1:h*11+h+1);
+            
+            %%PARAMOS LINHA 112
 end 
 
 
