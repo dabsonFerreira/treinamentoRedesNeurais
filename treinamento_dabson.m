@@ -10,7 +10,7 @@ load('pesoSaida.mat');%W2
 N = 1000; %sinal total?
 h = 8; % número de neuronios
 p = 10;
-epoca = 10;
+epoca = 1;
 lmbd = 0.0; %não sei o q é
 
 %criterio de parada
@@ -19,8 +19,8 @@ mi = muini;
 beta = 10;
 
 %% sinal de entrada
-ep=1;%for ep = 1:epoca
-L=1%    for L = 1:1%N-p
+for ep = 1:epoca
+    for L = 1:2%N-p
         X = x(L:p+L-1)';    
         T = t(L+floor(p-p/2));
 
@@ -146,8 +146,8 @@ L=1%    for L = 1:1%N-p
                     Xb(i) = X(i-1);
                 end%TAMANHO 11
 
-                 Xb = Xb';
-                 ponderacao1   = W1*Xb;%%%%%%%%%%%%%%%%%%%%%%%%%ERROTAAKIIIIIIII
+                 
+                 ponderacao1   = W1*Xb';%%%%%%%%%%%%%%%%%%%%%%%%%ERROTAAKIIIIIIII
                  saida1      = tanh(ponderacao1);
                  %Yb      = [ones(size(Y1,2),1)'; Y1];
 
@@ -200,19 +200,19 @@ L=1%    for L = 1:1%N-p
                         end
                     end
 
-                    W2 = W(h*size(Xb,1)+1:h*size(Xb,1)+h+1);
-
+%                   W2 = W(h*size(Xb,1)+1:h*size(Xb,1)+h+1);
+                    W2 = W(h*11+1:h*11+h+1);
                     % Recomputando o erro com o novo damper
                     %Xb     = [ones(size(X,2),1)';  X]; COMENTEI
-                     for i = 1:10
-                         Xb(i) = 1;
-                     end
+                    for i = 1:10
+                        Xb(i) = 1;
+                    end
 
                     for i = 2:11
                         Xb(i) = X(i-1);
                     end%TAMANHO 11
-    
-                    ponderacao1     = W1*Xb';
+                    
+                    ponderacao1 = W1*Xb';
                     Y1     = tanh(ponderacao1);
                     %Yb     = [ones(size(Y1,2),1)'; Y1];
                     for i = 1:size(saida1)
@@ -240,12 +240,12 @@ L=1%    for L = 1:1%N-p
                 Yi(L) = saida2;
                 
                 %Perfomance da Rede
-                perf(ep) = Eat(ep);
+                perf(ep) = Eat(ep);%não implementar!!!!!!!!!
             end
             mu(ep) = mi;
             Erro(:,ep) = T-Yi(L);
-    %end 
-%end
+    end 
+end
 
 
 
