@@ -32,7 +32,7 @@ beta    = 10;
 
 %Repetição do algoritmo segundo a quantidade de épocas
 for i = 1:epoc
-    for j = 1:2%N-p %EU COMENTEI PARA TESTE
+    for j = 1:N-p %EU COMENTEI PARA TESTE
         X = x(j:p+j-1)';
         T = t(j+floor(p-p/2));
             %% FeedFoward
@@ -60,6 +60,7 @@ for i = 1:epoc
             for n = 1:h 
 
                 Wtemp  = W1(n,:);%TAMANHO 11
+                %Wtia(n,:) = Wtemp;
                 J1temp = -1*(1-Y1(n,:).^2).*W2(n+1).*Xb; %TAMANHO 11
 
                 if n == 1
@@ -73,19 +74,22 @@ for i = 1:epoc
             end
 
             W = [W W2]; %TAMANHO 97
+            
             J = [J1 -Yb']; %TAMANHO 97
             
             w = W; %TAMANHO 97
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            
+           
             %Parâmetro de silenciamento (damper) igual
             %Atualização dos Pesos por LM
             H = J'*J/N; %TAMANHO 97x97
             g = J'*E'/N; %TAMANHO 97
             G(:,i) = g; %TAMANHO 97
             M = mi*eye(size(J,2)); %TAMANHO 97x97
-            W = w - g'*inv(H + M); %TAMANHO 97
+            W = w - g'*inv(H + M); %TAMANHO 97%O ERRO DA SEGUNDA VEZ EH AKI!!!!!!
             
             %Reposicionando os pesos
+            
             for k = 1:h
                 W1(k,:) = W((k-1)*size(Xb,1)+1:k*size(Xb,1)); %TAMANHO 8x11
             end
@@ -105,8 +109,10 @@ for i = 1:epoc
             %anteriormente o parâmetro de silênciamento (damper) é 
             %diminuído e o resultado final da rede é mantido para a próxima
             %época
+            
             if Eat(i) <= Ean(i)
                 mi = max(mi/beta,1e-7); %o damper não pode ser menor que 1e-7
+                mimat(j) = mi;
                 Yi(j) = Y2;
                 perf(i) = Eat(i);
             else
@@ -148,6 +154,31 @@ for i = 1:epoc
             end
             mu(i) = mi;
             Erro(:,i) = T-Yi(j);
+            
+            ww(j,:) = W;
+            EE(j) = E;
+            Eatt(j) = Eat;
+            gg(:,j) = g;
+            JJ(j,:) = J;
+            mii(j) = mi;
 
     end
 end
+wwTiago = ww;
+EETiago = EE;
+EattTiago = Eatt;
+ggTiago = gg;
+JJTiago = JJ;
+miiTiago = mii;
+
+save wwTiago wwTiago;
+save EETiago EETiago;
+save EattTiago EattTiago;
+save ggTiago ggTiago;
+save JJTiago JJTiago;
+save miiTiago miiTiago;
+
+
+
+
+

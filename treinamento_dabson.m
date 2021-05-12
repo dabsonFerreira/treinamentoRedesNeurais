@@ -20,7 +20,7 @@ beta = 10;
 
 %% sinal de entrada
 for ep = 1:epoca
-    for L = 1:2%N-p
+    for L = 1:N-p
         X = x(L:p+L-1)';    
         T = t(L+floor(p-p/2));
 
@@ -57,7 +57,7 @@ for ep = 1:epoca
         for n = 1:h
 
             wdab  = W1(n,:);
-           
+            Wtemp(n,:) = wdab;%debugandooooooooooooo
             a = saida1(n);
             a = a*a;
             
@@ -70,7 +70,7 @@ for ep = 1:epoca
             end
             
             mJ1temp = -mJ1temp;%TAMANHO 11
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            
             if n == 1
                 W  = wdab; %TAMANHO 11
                 J1 = mJ1temp'; %TAMANHO 11
@@ -125,9 +125,9 @@ for ep = 1:epoca
                 end
 
                 M = mi*iden;%TAMANHO 97X97
-                W = w - g'*inv(H + M); %TAMANHO 97
+                W = w - g'*inv(H + M); %TAMANHO 97%O ERRO DA SEGUNDA VEZ EH AKI!!!!!!
 
-
+                
                %% posicionando os pesos
                 for k = 1:h
                     W1(k,:) = W((k-1)*11+1:k*11);
@@ -167,11 +167,15 @@ for ep = 1:epoca
             %anteriormente o parâmetro de silênciamento (damper) é 
             %diminuído e o resultado final da rede é mantido para a próxima
             %época
+        
             if Eat(ep) <= Ean(ep)
                 if mi/beta < 1e-7
                     mi = 1e-7; %o damper não pode ser menor que 1e-7 SOH FAZER IF ELSE AKI
                     %mi = max(mi/beta,1e-7)
+                else
+                    mi = mi/beta;
                 end
+                mimat(L) = mi;
                 Yi(L) = saida2;
                 perf(ep) = Eat(ep);
             else
@@ -179,6 +183,8 @@ for ep = 1:epoca
                     %Parâmetro de silenciamento (damper) aumentando
                     if mi*beta > 1e7
                         mi = 1e7; 
+                    else
+                        mi = mi*beta;
                     end
                     %M = mi*eye(size(J,2));EU COMENTEI PARA RECRIAR COMO FOR
                     for i = 1:97
@@ -244,8 +250,22 @@ for ep = 1:epoca
             end
             mu(ep) = mi;
             Erro(:,ep) = T-Yi(L);
+            
+            ww(L,:) = W;
+            EE(L) = E;
+            Eatt(L) = Eat;
+            gg(:,L) = g;
+            JJ(L,:) = J;
+            mii(L) = mi;
     end 
 end
+
+wwDabson = ww;
+EEDabson = EE;
+EattDabson = Eatt;
+ggDabson = gg;
+JJDabson = JJ;
+miiDabson = mii;
 
 
 
