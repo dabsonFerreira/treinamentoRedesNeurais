@@ -47,7 +47,8 @@ for ep = 1:epoca
         end%TAMANHO 9
         ponderacao2 = W2*Yb'; %TAMANHO 1
         saida2 = ponderacao2; %TAMANHO 1
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%PARAMOS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%AKI SAPHO
         %% erro
         E = T - saida2; %TAMANHO 1
         Ean(ep) = mse(E); %% preciso entender pra saber implementar %TAMANHO 1

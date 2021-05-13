@@ -4,6 +4,7 @@ load('tNormalizado');
 
 load('pesoEntrada.mat');%W1
 load('pesoSaida.mat');%W2
+
 %% Configuração dos dados de entrada
 
 %Comprimento do vetor de treinamento
