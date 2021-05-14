@@ -19,8 +19,8 @@ mi = muini;
 beta = 10;
 
 %% sinal de entrada
-for ep = 1:epoca
-    for L = 1:N-p
+ep = 1%for ep = 1:epoca
+L = 1%    for L = 1:N-p
         X = x(L:p+L-1)';    
         T = t(L+floor(p-p/2));
 
@@ -58,7 +58,7 @@ for ep = 1:epoca
         for n = 1:h
 
             wdab  = W1(n,:);
-            Wtemp(n,:) = wdab;%debugandooooooooooooo
+            %Wtemp(n,:) = wdab;%debugandooooooooooooo
             a = saida1(n);
             a = a*a;
             
@@ -78,7 +78,7 @@ for ep = 1:epoca
             else
                 cont = 1;
                 for indice = (11*n-11+1):11*n
-                        W(indice) = wdab(cont);
+                    W(indice) = wdab(cont);
                     cont = cont+1;
                     %W  = [W wdab];
                 end
@@ -106,16 +106,14 @@ for ep = 1:epoca
             end
             %J = [J1 -Yb'];
 
-            w = W;
+           w = W;
            J = J';
             %% Parâmetro de silenciamento (damper) igual
                 
                 H = J'*J/N;%TAMANHO 97x97
                 g = J'*E'/N;%TAMANHO 97
                 
-                for n = 1: 97
-                    G(n,ep) = g(n);%TAMANHO 97
-                end    
+              
                 
                 for i = 1:97
                     for ii = 1:97
@@ -126,8 +124,7 @@ for ep = 1:epoca
                 end
 
                 M = mi*iden;%TAMANHO 97X97
-                W = w - g'*inv(H + M); %TAMANHO 97%O ERRO DA SEGUNDA VEZ EH AKI!!!!!!
-
+                W = w - g'*inv(H + M); 
                 
                %% posicionando os pesos
                 for k = 1:h
@@ -148,7 +145,7 @@ for ep = 1:epoca
                 end%TAMANHO 11
 
                  
-                 ponderacao1   = W1*Xb';%%%%%%%%%%%%%%%%%%%%%%%%%ERROTAAKIIIIIIII
+                 ponderacao1   = W1*Xb';
                  saida1      = tanh(ponderacao1);
                  %Yb      = [ones(size(Y1,2),1)'; Y1];
 
@@ -168,7 +165,7 @@ for ep = 1:epoca
             %anteriormente o parâmetro de silênciamento (damper) é 
             %diminuído e o resultado final da rede é mantido para a próxima
             %época
-        
+        %%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%%
             if Eat(ep) <= Ean(ep)
                 if mi/beta < 1e-7
                     mi = 1e-7; %o damper não pode ser menor que 1e-7 SOH FAZER IF ELSE AKI
@@ -252,21 +249,21 @@ for ep = 1:epoca
             mu(ep) = mi;
             Erro(:,ep) = T-Yi(L);
             
-            ww(L,:) = W;
-            EE(L) = E;
-            Eatt(L) = Eat;
-            gg(:,L) = g;
-            JJ(L,:) = J;
-            mii(L) = mi;
-    end 
-end
+%             ww(L,:) = W;
+%             EE(L) = E;
+%             Eatt(L) = Eat;
+%             gg(:,L) = g;
+%             JJ(L,:) = J;
+%             mii(L) = mi;
+%    end 
+%end
 
-wwDabson = ww;
-EEDabson = EE;
-EattDabson = Eatt;
-ggDabson = gg;
-JJDabson = JJ;
-miiDabson = mii;
+% wwDabson = ww;
+% EEDabson = EE;
+% EattDabson = Eatt;
+% ggDabson = gg;
+% JJDabson = JJ;
+% miiDabson = mii;
 
 
 
