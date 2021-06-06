@@ -18,10 +18,32 @@ def main():
     mat.write("i = 0;" '\n')
     mat.write("while(i<=96){" '\n')
     for a in range(97):
-        mat.write("    H_" + str(a) + " = J[i]*J[" + str(a) + "]/N;" '\n' )
+        mat.write("    H_" + str(a) + "[i] = J[i]*J[" + str(a) + "]/N;" '\n' )
     mat.write("    i++;" '\n')
     mat.write("}")
     mat.close()
+    
+    
+    
+    mat = open("H1calc.txt", "w+")
+    mat.write("i = 0;" '\n')
+    mat.write("while(i<=96){" '\n')
+    for a in range(97):
+        mat.write("    H_" + str(a) + "[i] = 0;" '\n' )
+    mat.write("    i++;" '\n')
+    mat.write("}")
+    mat.close()
+    
+    
+    
+    
+    mat = open("iddecla.txt", "w+")
+    mat.write("while i<=96:")
+    for a in range(97):       
+        mat.write("    id" + str(a) + "=  np.array(np.zeros(97)).astype(np.float);" '\n' )
+    mat.write("i+=1;")
+    mat.close()
+    
     
     
     
@@ -29,6 +51,17 @@ def main():
     for i in range(97):
         py.write("float iden_" + str(i) + "[97];"  '\n')
     py.close()
+    
+     py = open("inter0e1.txt", "w+")
+    for i in range(97):
+        py.write("inter0" + str(i) + "[97];"  '\n')
+    py.close()
+    
+    py = open("iden.txt", "w+")
+    for i in range(97):
+        py.write("iden_" + str(i) + "["+str(i)+"]=1;"  '\n')
+    py.close()
+    
     
     py = open("soma.txt", "w+")
     for i in range(97):
@@ -52,6 +85,31 @@ def main():
     py = open("Mmult.txt", "w+")
     for i in range(97):
         py.write("M_" + str(i) + "[" + str(i) + "] = iden_" + str(i) + "[" + str(i) + "]*mi;"  '\n')
+    py.close()
+    
+    
+    
+    py = open("varaux.txt", "w+")
+    py.write("while i<=96:")
+    for i in range(97):
+        py.write("    variavelauxiliar_" + str(i) + "[i] = id" + str(i) + "[i];"  '\n')
+    py.close()
+    
+    
+    
+    py = open("gxinv.txt", "w+")
+    py.write("while i<=96:" '\n')
+    for a in range (97):
+        py.write("    auxiliar["+str(a)+"] = ")
+        for i in range(97):
+            py.write("g["+str(i)+"]*id" + str(i) + "[" + str(a) + "] "  )
+            if i <96:
+                py.write("+")
+            else:
+                py.write(";")
+        py.write('\n' '\n' '\n')
+        
+    py.write("i+=1;")
     py.close()
     
     
@@ -132,6 +190,14 @@ def main():
     
     
     #fim do teste
+    dab = open("X.txt", "w+")
+    arquivo = open("x.txt", "r")
+    cont = 0;
+    for i in arquivo:
+        dab.write("x[" + str(cont) + "] = " + str(i) + ";" '\n')
+        cont = cont + 1
+    arquivo.close()
+    dab.close()
     
     #teste
     dab = open("W_1a.txt", "w+")
@@ -204,7 +270,32 @@ def main():
     dab.close()
     
     
+    dab = open("somamatriz.txt", "w+")
+    dab.write("while(i<=96):" '\n')
+    for i in range(97):           
+        dab.write("soma[" + str(i) + "][i]=soma_" + str(i) + "[i]" '\n')
+    dab.write("i= i +1")
+    dab.close()
     
+    let = open("xentr.txt", "w+")
+    dab = open("sinEntradax.txt", "r")
+    let.write("w = [np.zeros(10000)];")
+    cont = 0;
+    for i in dab:
+        let.write("x["+str(cont)+"] = " + str(i.split()) + ";" '\n')
+        cont+=1;
+    dab.close()
+    let.close()
+    
+    let = open("tentr.txt", "w+")
+    dab = open("sinalt.txt", "r")
+    let.write("t = [np.zeros(10000)];")
+    cont = 0;
+    for i in dab:
+        let.write("t["+str(cont)+"] = " + str(i.split()) + ";" '\n')
+        cont+=1;
+    dab.close()
+    let.close()
     
 
    # f1 = open("vetor_x.txt", "w+")

@@ -5,9 +5,21 @@ load('tNormalizado');
 load('pesoEntrada.mat');%W1
 load('pesoSaida.mat');%W2
 
+p1 = 8.0269e-20;
+p2 = 3.3456e-05;
+p3 = -2.688e-18;
+p4 = -0.0014462;
+p5 = 3.1656e-17;
+p6 = 0.023459;
+p7 = -1.4601e-16;
+p8 = -0.18409;
+p9 = 2.2708e-16;
+p10 = 0.9257;
+p11 = -8.2739e-17;
 
 
-N = 1000; %sinal total?
+
+N = 10000; %sinal total?
 h = 8; % número de neuronios
 p = 10;
 epoca = 1;
@@ -35,8 +47,8 @@ for ep = 1:epoca
 
         ponderacao1 = W1*Xb'; %TAMANHO 8
 
-        saida1 = tanh(ponderacao1);%TAMANHO 8
-
+        saida1(:,L) =  tanh(ponderacao1);%TAMANHO 8
+        saida1serie(:,L) = p1*ponderacao1.^10 + p2*ponderacao1.^9 + p3*ponderacao1.^8 + p4*ponderacao1.^7 + p5*ponderacao1.^6 + p6*ponderacao1.^5 + p7*ponderacao1.^4 + p8*ponderacao1.^3 + p9*ponderacao1.^2 + p10*ponderacao1 + p11 ;
         %% Out Layer
         for i = 1:size(saida1)
             Yb(i) = 1;
@@ -145,7 +157,9 @@ for ep = 1:epoca
 
                  
                  ponderacao1   = W1*Xb';
-                 saida1      = tanh(ponderacao1);
+                 saida1(:,L) =  tanh(ponderacao1);%TAMANHO 8
+                 saida1serie(:,L) = p1*ponderacao1.^10 + p2*ponderacao1.^9 + p3*ponderacao1.^8 + p4*ponderacao1.^7 + p5*ponderacao1.^6 + p6*ponderacao1.^5 + p7*ponderacao1.^4 + p8*ponderacao1.^3 + p9*ponderacao1.^2 + p10*ponderacao1 + p11 ;
+
                  %Yb      = [ones(size(Y1,2),1)'; Y1];
 
                  for i = 1:size(saida1)
